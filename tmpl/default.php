@@ -1,0 +1,36 @@
+<?php
+/**
+*
+* @version $Id$
+* @package VirtueMart
+* @subpackage Shipment
+* @author Max Milbers and José A. Cidre Bardelás
+* @copyright Copyright (C) 2014-2015 by the VirtueMart Team and Joomla Empresa Team
+* All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* VirtueMart is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
+*
+* http://virtuemart.net
+* http://www.joomlaempresa.es/en
+*/
+
+defined('_JEXEC') or die('Restricted access');
+
+//vmdebug('we have here ',$viewData['product']->prices,$viewData['method']);
+$currency = $viewData['currency'];
+if(!empty($viewData['method']->countries) and is_array($viewData['method']->countries) and count($viewData['method']->countries) > 0) {
+	$countryM = VmModel::getModel('country');
+	echo Jtext::_('VMSHIPMENT_WEIGHT_COUNTRIES_PERCENT_SHIP_TO');
+	foreach($viewData['method']->countries as $virtuemart_country_id) {
+		$country = $countryM->getData($virtuemart_country_id);
+		echo $country->country_name;
+
+		//vmdebug('my country ',$country);
+	}
+}
+echo '</br>';
+echo vmtext::sprintf('VMSHIPMENT_WEIGHT_COUNTRIES_PERCENT_WITH_SHIPMENT', $viewData['method']->shipment_name, $currency->priceDisplay($viewData['product']->prices['shipmentPrice']));
